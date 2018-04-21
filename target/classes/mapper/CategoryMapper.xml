@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mytmall.mapper.CategoryMapper">
+    <select id="list" resultType="Category">
+      SELECT * FROM t_category order by category_id desc
+      <if test="start != null and count != null">LIMIT #{start},#{count}</if>
+    </select>
+
+    <select id="total" resultType="int">
+        SELECT COUNT(*) FROM t_category
+    </select>
+
+    <insert id="add" parameterType="Category" keyProperty="category_id" useGeneratedKeys="true">
+        INSERT INTO t_category (category_name) VALUES (#{category_name})
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM t_category WHERE category_id = #{id}
+    </delete>
+
+    <select id="find" resultType="Category">
+        SELECT * FROM t_category WHERE category_id = #{id}
+    </select>
+
+    <update id="update" parameterType="Category">
+        UPDATE t_category SET category_name = #{category_name} WHERE category_id = #{category_id}
+    </update>
+</mapper>

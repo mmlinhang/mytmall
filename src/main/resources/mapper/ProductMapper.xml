@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mytmall.mapper.ProductMapper">
+
+    <resultMap id="productBean" type="Product">
+        <id column="product_id" property="id"/>
+        <result column="category_id" property="cid"/>
+        <result column="title" property="name"/>
+        <result column="subTitle" property="subTitle"/>
+        <result column="initial_price" property="originPrice"/>
+        <result column="discount_price" property="discountPrice"/>
+        <result column="review_num" property="reviewNum"/>
+    </resultMap>
+    <select id="list" resultMap="productBean">
+        SELECT * FROM t_product WHERE category_id = #{0} ORDER BY product_id DESC
+        <if test="#{1} != null and #{2} != null">
+          LIMIT #{1}, #{2}
+        </if>
+    </select>
+
+    <select id="total" resultType="int">
+        SELECT COUNT(*) FROM t_product WHERE category_id=#{id}
+    </select>
+
+    <insert id="add" parameterType="Product" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO t_product (category_id,title,subTitle,initial_price,discount_price,stock,createDate)
+        VALUES (#{cid},#{name},#{subTitle},#{originPrice},#{discountPrice},#{stock},#{createDate})
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM t_product WHERE product_id = #{0}
+    </delete>
+
+    <update id="update" parameterType="Product">
+        UPDATE t_product SET title=#{name},subTitle=#{subTitle},initial_price=#{originPrice},discount_price=#{discountPrice},stock=#{stock}
+        WHERE product_id = #{id}
+    </update>
+
+    <select id="get" parameterType="int" resultMap="productBean">
+        SELECT * FROM t_product WHERE product_id = #{01}
+    </select>
+</mapper>

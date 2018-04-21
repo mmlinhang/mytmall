@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mytmall.mapper.UserMapper">
+
+    <resultMap id="userBean" type="User">
+        <id property="id" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="password" column="password"/>
+    </resultMap>
+
+    <select id="list" resultMap="userBean">
+        SELECT * FROM t_user ORDER BY user_id DESC
+        LIMIT #{start}, #{count}
+    </select>
+
+    <select id="total" resultType="int">
+        SELECT COUNT(*) FROM t_user
+    </select>
+
+    <select id="get" resultMap="userBean">
+        SELECT * FROM t_user WHERE user_id = #{0}
+    </select>
+
+    <insert id="add" parameterType="User">
+        INSERT INTO t_user (user_name, password)
+        VALUES (#{userName}, #{password})
+    </insert>
+
+    <select id="getByUserName" resultMap="userBean">
+        SELECT * FROM t_user WHERE user_name = #{0}
+    </select>
+
+    <select id="getByUserNameAndPassword" resultMap="userBean">
+        SELECT * FROM t_user WHERE user_name = #{0} AND password = #{1}
+    </select>
+</mapper>

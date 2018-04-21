@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mytmall.mapper.PictureMapper">
+
+    <resultMap id="pictureBean" type="Picture">
+        <id column="pricture" property="id"/>
+        <result column="product_id" property="pid"/>
+    </resultMap>
+
+    <select id="getSinglePids" resultType="Integer">
+        SELECT pricture_id FROM t_picture WHERE product_id = #{0} AND type=1 ORDER BY pricture_id DESC
+    </select>
+
+    <select id="getDetailPids" resultType="Integer">
+        SELECT pricture_id FROM t_picture WHERE product_id = #{0} AND type=2 ORDER BY pricture_id DESC
+    </select>
+
+    <insert id="add" parameterType="Picture" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO t_picture (product_id, type) VALUES(#{pid}, #{type})
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM t_picture WHERE pricture_id = #{0}
+    </delete>
+
+    <select id="get" resultMap="pictureBean">
+        SELECT * FROM t_picture WHERE pricture_id = #{0}
+    </select>
+</mapper>

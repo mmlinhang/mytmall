@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mytmall.mapper.PropertyMapper">
+
+    <resultMap id="propertyBean" type="Property">
+        <id property="id" column="property_id"/>
+        <result property="name" column="property_name"/>
+        <result property="cid" column="category_id"/>
+    </resultMap>
+
+    <select id="list" resultMap="propertyBean">
+        SELECT * FROM t_property WHERE category_id = #{0} ORDER BY property_id DESC LIMIT #{1},#{2}
+    </select>
+
+    <select id="count" resultType="int">
+        SELECT COUNT(*) FROM t_property WHERE category_id = #{id}
+    </select>
+
+    <insert id="add" parameterType="Property" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO t_property (property_name, category_id) VALUES(#{name}, #{cid})
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM t_property WHERE property_id = #{id}
+    </delete>
+
+    <update id="update" parameterType="Property">
+        UPDATE t_property SET property_name = #{name} WHERE property_id = #{id}
+    </update>
+
+    <delete id="deleteAll">
+        DELETE FROM t_property WHERE category_id = #{0}
+    </delete>
+
+    <select id="get" resultMap="propertyBean">
+        SELECT * FROM t_property WHERE property_id = #{0}
+    </select>
+</mapper>

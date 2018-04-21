@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mytmall.mapper.OrderMapper">
+
+    <resultMap id="orderBean" type="Order">
+        <id column="order_id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="tele_num" property="teleNum"/>
+        <result column="reciver" property="receiver"/>
+        <result column="total_num" property="totalNum"/>
+        <result column="total_price" property="totalPrice"/>
+        <result column="state" property="state"/>
+        <result column="create_time" property="createTime"/>
+        <result column="pay_time" property="payTime"/>
+        <result column="deliver_time" property="deliverTime"/>
+        <result column="comfirm_time" property="confirmTime"/>
+        <result column="user_message" property="userMessage"/>
+
+    </resultMap>
+
+    <select id="list" resultMap="orderBean">
+        SELECT * FROM t_order ORDER BY order_id DESC
+        LIMIT #{start}, #{count}
+    </select>
+
+    <select id="total" resultType="int">
+        SELECT COUNT(*) FROM t_order
+    </select>
+</mapper>
